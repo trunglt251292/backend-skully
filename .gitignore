@@ -1,0 +1,7 @@
+node_modules/
+dist/
+public/avatar/
+public/skully/
+.idea/
+package-lock.json
+key.json
