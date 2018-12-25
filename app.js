@@ -36,8 +36,8 @@ mongoose.connect(configs.mongoURL,(err)=>{
       return err;
     } else {
       console.log('Da ket noi ket noi thanh cong!!!!');
-      //generateSkullies();
-    }
+      // generateSkullies();
+	}
 })
 /**
  * Use, Set

@@ -6,10 +6,10 @@ const router = new Router();
 
 router.route('/buy')
       .post(Skullies.setSkullies);
+router.route('/getall')
+  .get(Skullies.getAllSkullies);
 router.route('/:id')
       .get(Skullies.getSkulliesById)
       .post(Skullies.setPrice);
-router.route('/skullies')
-      .get(Skullies.getAllSkullies);
 
 export default router;

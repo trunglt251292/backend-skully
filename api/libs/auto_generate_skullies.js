@@ -7,6 +7,7 @@ import {setId} from "../services/skullies.service";
 
 export async function generateSkullies() {
   try{
+    await Skullies.remove({});
     let count = 1;
     for (let i = 0; i < Constants.body.length; i++){
       console.log('IIIIIIIIIIIIIIIIII : ',i);
@@ -22,6 +23,9 @@ export async function generateSkullies() {
               eye:Constants.eye[k],
               mouth:Constants.mouth[j],
               body:Constants.body[i],
+              country:'',
+              latitude:'',
+              meridian:'',
               id:count
             }
           };

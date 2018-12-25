@@ -10,7 +10,29 @@ export async function setSkullies(options){
     if(!miner){
       return Promise.reject({status:400, success:false, error: 'Address Ethereum Not Found.'})
     }
-   let owner = await Owner.findOne({miner:miner._id, skully:})
+    let owner = await Owner.findOne({miner:miner._id, skully:options.id}).lean();
+    if(owner){
+      return Promise.reject({status:400, success:false, error: 'This skully have sold.'});
+    }
+    let skully = await Skullies.findOne({id:options.id});
+    if(!skully){
+      return Promise.reject({status:400, success:false, error: 'This skully not found.'});
+    }
+    await Skullies.update({
+      id:options.id
+    },{
+      $set:{
+        name:options.name,
+        description:options.description,
+        "attributes.country": options.country,
+        price:options.price
+      }
+    });
+    await Owner.create({
+      skully:options.id,
+      miner:miner._id
+    });
+    return await Skullies.findOne({id:options.id}).lean();
   }catch(err){
     console.log('Error addSkullies Services : ',err);
     return Promise.reject({status:500, success:false, error:'Error Internal Server.'})
@@ -19,6 +41,9 @@ export async function setSkullies(options){
 
 export async function getSkulliesById(options) {
   try{
+    if(isNaN(parseInt(options.id))){
+      return Promise.reject({status:400, success:false, error:'Parameter Invalid.'})
+    }
     let data = await Skullies.findOne({id:options.id}).lean();
     if(!data){
       return Promise.reject({status:400, success:false, error:'Skullies not found.'})
@@ -30,9 +55,11 @@ export async function getSkulliesById(options) {
   }
 }
 
-export async function getAllSkullies() {
+export async function getAllSkullies(options) {
   try{
-    return await Skullies.find({}).sort({id:1}).lean();
+    let count = await Skullies.count({});
+    let data = await Skullies.find({}).sort({id:1}).limit(options.limit).skip(options.skip).lean();
+    return [count,data];
   }catch (err) {
     console.log('Error getAllSkullies Services : ',err);
     return Promise.reject({status:500, success:false, error:'Error Internal Server.'})
@@ -45,6 +72,17 @@ export async function setPrice(options) {
     if(!data){
       return Promise.reject({status:400, success:false, error:'Skullies not found.'})
     }
+    let miner = await Miner.findOne({address_eth:options.address_eth}).lean();
+    if(!miner){
+      return Promise.reject({status:400, success:false, error: 'Address Ethereum Not Found.'})
+    }
+    let owner = await Owner.findOne({miner:miner._id, skully:options.id}).lean();
+    if(!owner){
+      return Promise.reject({status:400, success:false, error: 'You not permission.'})
+    }
+    await Skullies.update({id:options.id},{$set:{price:options.price}});
+    data.price = options.price;
+    return data;
   }catch (err){
     console.log('Error getAllSkullies Services : ',err);
     return Promise.reject({status:500, success:false, error:'Error Internal Server.'})
