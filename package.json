@@ -30,6 +30,7 @@
     "btoa": "^1.2.1",
     "cheerio": "^1.0.0-rc.2",
     "cookie-parser": "^1.4.3",
+    "cors": "^2.8.5",
     "debug": "^3.1.0",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
@@ -45,6 +46,7 @@
     "nodemon": "^1.14.3",
     "pg": "^7.5.0",
     "pg-hstore": "^2.3.2",
+    "randomcolor": "^0.5.3",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "sanitize-html": "^1.19.1",
@@ -52,8 +54,8 @@
     "serve-favicon": "^2.4.5",
     "socket.io": "^2.0.4",
     "stylus": "^0.54.5",
-    "svg-to-png": "^3.1.2",
-    "svg2png": "^4.1.1"
+    "svg2png": "^4.1.1",
+    "web3": "^1.0.0-beta.31"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",

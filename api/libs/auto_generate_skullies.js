@@ -2,6 +2,7 @@ import {mergeMultiSvg} from "./HandleSVG";
 import Skullies from '../models/skullies.model';
 import Constants from '../constants';
 import Configs from "../config";
+import randomcolor from 'randomcolor';
 import {setId} from "../services/skullies.service";
 
 
@@ -26,6 +27,7 @@ export async function generateSkullies() {
               country:'',
               latitude:'',
               meridian:'',
+              background:randomcolor(),
               id:count
             }
           };

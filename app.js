@@ -4,6 +4,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import fs from "fs"
+import cors from 'cors';
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import morgan from "morgan";
@@ -43,6 +44,7 @@ mongoose.connect(configs.mongoURL,(err)=>{
  * Use, Set
  */
 app.use(morgan("dev"));
+app.use(cors());
 app.set("views",path.join(__dirname, "views"));
 app.set("view engine","ejs");
 app.set('port',port);
