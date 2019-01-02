@@ -3,5 +3,6 @@ dist/
 public/avatar/
 public/skully/
 .idea/
+api/config.js
 package-lock.json
 key.json
