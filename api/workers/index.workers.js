@@ -1,1 +1,1 @@
-import * as Exam from './exam.workers';
+import * as Exam from './mint.workers';

@@ -20,6 +20,10 @@ const Skullies = new Schema({
   svg: {type:String, required:true},
   attributes:{type:Object, required:true},
   price:{type:Number, default:0},
+  attack:{type:Number, default:0},
+  defend:{type:Number, default:0},
+  genes:{type:String},
+  active:{type:Boolean, default:false},
   tags:{type:Array, default:[]}
 });
 

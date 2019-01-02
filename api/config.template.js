@@ -38,5 +38,7 @@ export default {
   kueUI: {
     port: 3053
   },
+  apiSkully:'',
+  apiSkullyAuction:'',
   projectId:''// google projectId. Before, you need export credentials. Example: "export GOOGLE_APPLICATION_CREDENTIALS="/home/user/Downloads/{file}.json"
 };

@@ -55,10 +55,40 @@ export async function getSkulliesById(options) {
   }
 }
 
+export async function getSkullyOfOwner(options) {
+  try{
+    let count = await Owner.count({miner:options.miner});
+    let data = await Owner.find({miner:options.miner}).sort({id:1}).limit(options.limit).skip(options.skip).lean();
+    data = await getMetaData(data);
+    return [count,data];
+  }catch (err){
+    console.log('Error getSkullyOfOwner Services : ',err);
+    return Promise.reject({status:500, success:false, error:'Error Internal Server.'})
+  }
+}
+
+export async function getMetaData(data) {
+  try{
+    let promise = data.map(async e =>{
+      e.skully = await Skullies.findOne({id:e.skully}).lean();
+      e.miner = await Miner.findOne({address_eth:e.miner}).lean();
+      return e;
+    });
+    return await Promise.all(promise);
+  }catch (err){
+    console.log('Error getMetaData Services : ',err);
+    return Promise.reject({status:500, success:false, error:'Error Internal Server.'})
+  }
+}
+
 export async function getAllSkullies(options) {
   try{
-    let count = await Skullies.count({});
-    let data = await Skullies.find({}).sort({id:1}).limit(options.limit).skip(options.skip).lean();
+    let conditions = {};
+    if(options.tag){
+      conditions.tags = options.tag;
+    }
+    let count = await Skullies.count(conditions);
+    let data = await Skullies.find(conditions).sort({id:1}).limit(options.limit).skip(options.skip).lean();
     return [count,data];
   }catch (err) {
     console.log('Error getAllSkullies Services : ',err);

@@ -39,12 +39,14 @@ export async function getAllSkullies(req,res) {
   try{
     let page = Number(req.query.page) || 1;
     let limit = Number(req.query.limit) || LIMIT;
+    let tag = req.query.tags || null;
+    console.log(tag);
     let skip = (page - 1)*limit;
     let options = {
       limit,
-      skip
+      skip,
+      tag
     };
-    console.log(options);
     let data = await Skullies_Service.getAllSkullies(options);
     return res.json({
       success:true,
@@ -59,7 +61,34 @@ export async function getAllSkullies(req,res) {
     return res.status(err.status).json(err);
   }
 }
-
+export async function getSkullyOfOwner(req,res) {
+  try{
+    let miner = req.query.address;
+    if(!miner){
+      return res.json({status:400, success:false, error: 'Request params address. Please try again!'});
+    }
+    let page = Number(req.query.page) || 1;
+    let limit = Number(req.query.limit) || LIMIT;
+    let skip = (page - 1)*limit;
+    let options = {
+      limit,
+      skip,
+      miner
+    };
+    let data = await Skullies_Service.getSkullyOfOwner(options);
+    return res.json({
+      success:true,
+      total_page: Math.ceil(data[0]/limit),
+      total_item: data[0],
+      page,
+      item: data[1].length,
+      data:data[1]
+    })
+  }catch (err){
+    console.log('Error getSkullyOfOwner : ',err);
+    return res.status(err.status).json(err);
+  }
+}
 export async function setPrice(req,res) {
   try{
     let id = req.params.id;

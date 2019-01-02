@@ -4,6 +4,8 @@ const router = new Router();
 
 router.route('/getall')
       .get(Skullies.getAllSkullies);
+router.route('/getSkully')
+      .get(Skullies.getSkullyOfOwner);
 router.route('/:id')
       .get(Skullies.getSkulliesById)
 

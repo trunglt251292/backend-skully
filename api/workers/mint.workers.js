@@ -1,9 +1,9 @@
 import {Q} from '../Queue';
 import Constants from '../constants';
 // Run Worker Here!!
-Q.process(Constants.jobName.EXAM_WORKER, 1 ,async (data,done)=>{
+Q.process(Constants.jobName.MINT_WORKER, 1 ,async (job,done)=>{
   try {
-    // Code o chuc nang o day!
+    console.log(job.data);
     return done(null);
   } catch (err) {
     console.log(err);

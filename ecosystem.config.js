@@ -43,7 +43,7 @@ module.exports = {
       ref  : 'origin/master',
       repo : 'git@github.com:repo.git',
       path : '/var/www/development',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env dev',
+      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env api-skullies',
       env  : {
         NODE_ENV: 'dev'
       }
