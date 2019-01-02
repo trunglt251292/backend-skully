@@ -1,4 +1,5 @@
 import Miner from '../models/miner.model';
+import faker from "faker";
 
 export async function createMiner(options) {
   try {
@@ -6,6 +7,7 @@ export async function createMiner(options) {
     if(miner){
       return miner;
     }
+    options.avatar = faker.image.cats();
     return await Miner.create(options);
   } catch (err) {
     console.log('error createMiner : ', err);

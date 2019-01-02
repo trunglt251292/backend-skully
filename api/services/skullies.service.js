@@ -48,6 +48,10 @@ export async function getSkulliesById(options) {
     if(!data){
       return Promise.reject({status:400, success:false, error:'Skullies not found.'})
     }
+    let owner = await Owner.findOne({skully:data.id}).lean();
+    if(owner){
+      data.miner = await Miner.findOne({address_eth: owner.miner},'username email avatar').lean();
+    }
     return data;
   }catch (err){
     console.log('Error getSkulliesById Services : ',err);
@@ -92,6 +96,22 @@ export async function getAllSkullies(options) {
     return [count,data];
   }catch (err) {
     console.log('Error getAllSkullies Services : ',err);
+    return Promise.reject({status:500, success:false, error:'Error Internal Server.'})
+  }
+}
+
+export async function getMetaDataSkully(data) {
+  try{
+    let promise = data.map(async e=>{
+      let owner = await Owner.findOne({skully:e.id},'username email avatar').lean();
+      if(owner){
+        e.owner = owner;
+      }else {}
+      return e;
+    });
+    return await Promise.all(promise);
+  }catch (error){
+    console.log('Error getMetaData Services : ',err);
     return Promise.reject({status:500, success:false, error:'Error Internal Server.'})
   }
 }
