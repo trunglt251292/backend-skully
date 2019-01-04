@@ -19,3 +19,23 @@ export async function createMiner(req, res) {
     return res.status(err.status).json(err);
   }
 }
+
+export async function getMiner(req, res) {
+  try {
+    let data = req.query.address || null;
+    if(!data){
+      throw {
+        status:400,
+        success:false,
+        error: "Parameter Invalid."
+      }
+    }
+    data = await Miner_Services.getMiner(data);
+    return res.json({
+      success: true,
+      data
+    });
+  } catch (err) {
+    return res.status(err.status).json(err);
+  }
+}

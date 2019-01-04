@@ -5,11 +5,16 @@ import Configs from "../config";
 import randomcolor from 'randomcolor';
 import faker from 'faker';
 import {setId} from "../services/skullies.service";
+import path from 'path';
+import execa from 'execa';
 
 
 export async function generateSkullies() {
   try{
     await Skullies.remove({});
+    let shell_script = 'cd '+path.join(__dirname,'..','..','public','avatar')+' && rm -f *.png';
+    await execa.shell(shell_script);
+    console.log('Removed file in folder exports success!');
     let count = 1;
     for (let i = 0; i < Constants.body.length; i++){
       console.log('IIIIIIIIIIIIIIIIII : ',i);
