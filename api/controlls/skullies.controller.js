@@ -40,7 +40,6 @@ export async function getAllSkullies(req,res) {
     let page = Number(req.query.page) || 1;
     let limit = Number(req.query.limit) || LIMIT;
     let tag = req.query.tags || null;
-    console.log(tag);
     let skip = (page - 1)*limit;
     let options = {
       limit,

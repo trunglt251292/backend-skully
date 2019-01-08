@@ -19,7 +19,7 @@ const Skullies = new Schema({
   image: {type:String, required:true},
   svg: {type:String, required:true},
   attributes:{type:Object, required:true},
-  price:{type:Number, default:0},
+  rank:{type:Number, default:0},
   attack:{type:Number, default:0},
   defend:{type:Number, default:0},
   genes:{type:String},

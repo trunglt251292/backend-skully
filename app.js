@@ -3,7 +3,7 @@
  */
 import express from "express";
 import bodyParser from "body-parser";
-import fs from "fs"
+import rateLimit from "express-rate-limit";
 import cors from 'cors';
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
@@ -28,6 +28,10 @@ const socketio = require('socket.io');
 const port = normalizePort(process.env.PORT || 8001);
 const server = http.createServer(app);
 const io = socketio.listen(server);
+const limit = rateLimit({
+  windowMs: 60*1000,
+  max:1000
+});
 // import model sql
 // require('./api/models')
 mongoose.Promise = global.Promise;
@@ -37,12 +41,13 @@ mongoose.connect(configs.mongoURL, (err) => {
     return err;
   } else {
     console.log('Da ket noi ket noi thanh cong!!!!');
-    //generateSkullies();
+    generateSkullies();
   }
 })
 /**
  * Use, Set
  */
+app.use(limit);
 app.use(morgan("dev"));
 app.use(cors());
 app.set("views", path.join(__dirname, "views"));

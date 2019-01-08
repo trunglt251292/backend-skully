@@ -7,6 +7,6 @@ router.route('/getall')
 router.route('/getSkully')
       .get(Skullies.getSkullyOfOwner);
 router.route('/:id')
-      .get(Skullies.getSkulliesById)
+      .get(Skullies.getSkulliesById);
 
 export default router;

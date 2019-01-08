@@ -1,6 +1,7 @@
 import Skullies from '../models/skullies.model';
 import Owner from '../models/owner.model';
 import Miner from '../models/miner.model';
+import Auction from '../models/auction.model';
 import Configs from '../config';
 import {mergeMultiSvg} from "../libs/HandleSVG";
 
@@ -52,6 +53,10 @@ export async function getSkulliesById(options) {
     if(owner){
       data.miner = await Miner.findOne({address_eth: owner.miner},'username email avatar').lean();
     }
+    let price = await Auction.findOne({skullyid:data.id},'startingPrice endingPrice duration').lean();
+    if(price){
+      data.auction = price;
+    }
     return data;
   }catch (err){
     console.log('Error getSkulliesById Services : ',err);
@@ -87,12 +92,18 @@ export async function getMetaData(data) {
 
 export async function getAllSkullies(options) {
   try{
-    let conditions = {};
+    let auction = await Auction.find({},'skullyid').lean();
+    let conditions = {
+      id:{
+        $in:auction
+      }
+    };
     if(options.tag){
       conditions.tags = options.tag;
     }
     let count = await Skullies.count(conditions);
     let data = await Skullies.find(conditions).sort({id:1}).limit(options.limit).skip(options.skip).lean();
+    data = await getMetaDataSkully(data);
     return [count,data];
   }catch (err) {
     console.log('Error getAllSkullies Services : ',err);
@@ -106,7 +117,8 @@ export async function getMetaDataSkully(data) {
       let owner = await Owner.findOne({skully:e.id},'username email avatar').lean();
       if(owner){
         e.owner = owner;
-      }else {}
+      }
+      e.auction = await Auction.findOne({skullyid:e.id},'startingPrice endingPrice duration').lean();
       return e;
     });
     return await Promise.all(promise);

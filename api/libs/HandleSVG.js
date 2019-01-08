@@ -7,7 +7,7 @@ import globalConstants from '../constants';
 
 export async function mergeMultiSvg(options) {
   try {
-    let pathNullCat = path.resolve(__dirname, '../../cattributes/nullcat.svg');
+    let pathNullCat = path.resolve(__dirname, '../../cattributes/null-skully.svg');
 
     let pathBody = path.resolve(__dirname, '../../cattributes/body/'+options.body+'.svg');
     let pathEye = path.resolve(__dirname, '../../cattributes/eye/'+options.eye+'.svg');

@@ -12,12 +12,11 @@ import execa from 'execa';
 export async function generateSkullies() {
   try{
     await Skullies.remove({});
-    let shell_script = 'cd '+path.join(__dirname,'..','..','public','avatar')+' && rm -f *.png';
-    await execa.shell(shell_script);
-    console.log('Removed file in folder exports success!');
-    let count = 1;
+    // let shell_script = 'cd '+path.join(__dirname,'..','..','public','avatar')+' && rm -f *.png';
+    // await execa.shell(shell_script);
+    // console.log('Removed file in folder exports success!');
+    let count = 0;
     for (let i = 0; i < Constants.body.length; i++){
-      console.log('IIIIIIIIIIIIIIIIII : ',i);
       for (let j = 0; j < Constants.mouth.length; j++){
         for (let k = 0; k < Constants.eye.length; k++){
           let data = {
@@ -37,7 +36,7 @@ export async function generateSkullies() {
               id:count
             }
           };
-          data.image = await mergeMultiSvg(data.attributes);
+          data.image = Configs.host+'/avatar/skully-map-head.png';
           data.tags = [Constants.eye[k],Constants.mouth[j],Constants.body[i]];
           if(data.image){
             await Skullies.create(data);
